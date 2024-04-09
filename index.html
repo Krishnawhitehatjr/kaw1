@@ -7,10 +7,42 @@
 </head>
 <body>
     <h1>Send Message to Discord</h1>
-    <form action="/send_message" method="post">
+    <form id="discordForm">
         <label for="message">Message:</label><br>
         <input type="text" id="message" name="message"><br>
-        <button type="submit">Send Message</button>
+        <button type="button" onclick="sendMessage()">Send Message</button>
     </form>
+
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("message").value;
+            var webhookUrl = "YOUR_WEBHOOK_URL_HERE";
+
+            var payload = {
+                content: message
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Message sent successfully!");
+                    // Optionally, you can display a success message to the user here
+                } else {
+                    console.error("Failed to send message. Status code: " + response.status);
+                    // Optionally, you can display an error message to the user here
+                }
+            })
+            .catch(error => {
+                console.error("An error occurred:", error);
+                // Optionally, you can display an error message to the user here
+            });
+        }
+    </script>
 </body>
 </html>
